@@ -1,3 +1,4 @@
+import pytest
 import emulator
 import numpy as np
 
@@ -254,3 +255,35 @@ def test_qpe():
     state = np.zeros(2**5, dtype=complex)
     state[11] = 1
     assert(np.allclose(emulator.qpe(T, phi, 5), state))
+    
+    # Test 4x4 T matrix.
+    T = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
+    phi = np.array([0, 0, 0, 1],dtype=complex)
+    state = np.zeros(2**5, dtype=complex)
+    state[11] = 1
+    assert(np.allclose(emulator.qpe(T, phi, 5), state))
+    
+def test_qpe_fail():
+    # Test 3x3 T matrix.
+    T = np.array([[1, 0, 0], [0, 1, 0], [0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
+    phi = np.array([0, 0, 1],dtype=complex)
+    state = np.zeros(2**5, dtype=complex)
+    with pytest.raises(ValueError) as e:
+        emulator.qpe(T, phi, 5)
+    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'
+    
+    # Test 3x2 T matrix.
+    T = np.array([[1, 0, 0], [0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
+    phi = np.array([0, 1],dtype=complex)
+    state = np.zeros(2**5, dtype=complex)
+    with pytest.raises(ValueError) as e:
+        emulator.qpe(T, phi, 5)
+    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'
+    
+    # Test 2x1 T matrix.
+    T = np.array([[0, np.exp(2*1j*np.pi/3)]],dtype=complex)
+    phi = np.array([1],dtype=complex)
+    state = np.zeros(2**5, dtype=complex)
+    with pytest.raises(ValueError) as e:
+        emulator.qpe(T, phi, 5)
+    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'

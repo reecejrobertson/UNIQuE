@@ -131,23 +131,26 @@ def inv_qft(x):
     return normalize(fft(x))    #Perform the fft on x and normalize.
 
 
-def qpe(U, phi, n):
+def qpe(U, phi, b):
     """
     Performs quantum phase estimation on the matrix U with eigenvector |phi>
     such that U|phi>=e^{2*pi*i/theta}|phi>.
 
     Args:
-        U (ndarray):    An mxm unitary operator.
-        phi (ndarray):  An mx1 eigenvector of U.
-        n (int):        The number of qubits to use on the counting register.
+        U (ndarray):    An NxN unitary operator.
+        phi (ndarray):  An Nx1 eigenvector of U.
+        b (int):        The number of qubits to use on the counting register.
 
     Returns:
-        ndarray:        An approimation of the 2**n*theta such that 
-                        U|phi>=e^{2*pi*i/theta}|phi>. It is returned as a 2**nx1
+        ndarray:        An approimation of the (2^b)*theta such that 
+                        U|phi>=e^{2*pi*i/theta}|phi>. It is returned as a (2^b)x1
                         quantum state vector approximation.
     """
     
-    # TODO: Require M to be a power of 2
+    # Assert that U is a square matrix of size NxN where N=2^n for some n.
+    m, n = U.shape
+    if m != n or np.log2(n) % 1 != 0:
+        raise ValueError('U must be an NxN unitary matrix where N=2^n for some integer n.')
     
     # Get the eigenvalue (phase) corresponding to the given eigenvector phi.
     evals, evecs = np.linalg.eig(U)
@@ -157,11 +160,11 @@ def qpe(U, phi, n):
     # Compute the theta such that e^{2*pi*i/theta}=phase.
     theta = np.log(phase)/(2*np.pi*1j)
     
-    # Multiply theta by 2**n, round the result, and convert it to an int.
-    theta = int(np.round(theta.real * (2**n)))
+    # Multiply theta by 2^b, round the result, and convert it to an int.
+    theta = int(np.round(theta.real * (2**b)))
     
-    # Create a state of size 2**n with state[theta]=1. Return that state.
-    state = np.zeros(2**n, dtype=complex)
+    # Create a state of size 2^b with state[theta]=1. Return that state.
+    state = np.zeros(2**b, dtype=complex)
     state[theta] = 1
     return state
 
@@ -198,15 +201,15 @@ def measure(x, include_index=False):
         return x_new
 
 
-def shors(a, X, m, n):
+def shors(X, a, m, n):
     """
     Evaluates Shor's algorithm to attempt to find factors of X.
     By nature, this algorithm does not always succeed, so it is recommended
     that one run it several times to increase the probability of success.
 
     Args:
-        a (int): The number used to find the period of N through modular exponentiation. 
         X (int): The number to factor.
+        a (int): The number used to find the period of X through modular exponentiation. 
         m (int): The number of qubits to use in the first (counting) register.
         n (int): The number of qubits to use in the second register.
 
