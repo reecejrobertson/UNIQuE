@@ -1,5 +1,4 @@
 import numpy as np
-from math import gcd
 from fractions import Fraction
 from scipy.fftpack import fft, ifft
 from scipy import sparse as sp
@@ -251,18 +250,13 @@ def shors(X, a, m, n):
     first = inv_qft(first)
 
     # Measure the first register, and use the continued fractions algorithm
-    # to find the proper candidate for the factor.
+    # to find the proper candidate for the period of a^x mod X.
     first, r = measure(first, include_index=True)
     frac = Fraction(r/M).limit_denominator(X)
     r = frac.denominator
 
-    # If the factor is even, use it to compute the true factors of X.
-    if r % 2 == 0:
-        return np.array([gcd(a**(r//2) - 1, X), gcd(a**(r//2) + 1, X)])
-
-    # Otherwise just return our candidate (which is likely incorrect).
-    else:
-        return np.array([r])
+    # Return our estimate for the period of a^x mod X.
+    return r
     
     
 def normalize_sparse(x):
