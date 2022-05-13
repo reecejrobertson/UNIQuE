@@ -1,4 +1,5 @@
-import pytest
+import sys
+sys.path.append('../../Emulator')
 import emulator
 import numpy as np
 
@@ -214,76 +215,3 @@ def test_exp():
     b = np.array([1+0j, 0+1j], dtype=complex)
     c = np.array([-1/2+1/2*1j, 3/2+1/2*1j, 0, 0], dtype=complex)
     assert(np.allclose(emulator.exponentiate(a, b), emulator.normalize(c)))
-    
-    
-#==============================================================================#
-#                                   Test QFT                                   #
-#==============================================================================#
-def test_qft():
-    a = np.array([0+0j, 0+0j, 0+0j, 1/2+0j,
-                  0+0j, 0+0j, 0+0j, 1/2+0j,
-                  0+0j, 0+0j, 0+0j, 1/2+0j,
-                  0+0j, 0+0j, 0+0j, 1/2+0j], dtype=complex)
-    c = np.array([1/2+0j, 0+0j, 0+0j, 0+0j,
-                  0-1/2*1j, 0+0j, 0+0j, 0+0j,
-                  -1/2+0j, 0+0j, 0+0j, 0+0j,
-                  0+1/2*1j, 0+0j, 0+0j, 0+0j], dtype=complex)
-    assert(np.allclose(emulator.qft(a), c))
-
-
-#==============================================================================#
-#                                   Test QPE                                   #
-#==============================================================================#
-def test_qpe():
-    # Test on a pi/4 rotation (T-gate).
-    T = np.array([[1, 0], [0, np.exp(1j*np.pi/4)]],dtype=complex)
-    phi = np.array([0, 1],dtype=complex)
-    state = np.zeros(8, dtype=complex)
-    state[1] = 1
-    assert(np.allclose(emulator.qpe(T, phi, 3), state))
-    
-    # Test with a theta of 1/3 with 3 qubits.
-    T = np.array([[1, 0], [0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([0, 1],dtype=complex)
-    state = np.zeros(8, dtype=complex)
-    state[3] = 1
-    assert(np.allclose(emulator.qpe(T, phi, 3), state))
-    
-    # Test with a theta of 1/3 with 5 qubits.
-    T = np.array([[1, 0], [0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([0, 1],dtype=complex)
-    state = np.zeros(2**5, dtype=complex)
-    state[11] = 1
-    assert(np.allclose(emulator.qpe(T, phi, 5), state))
-    
-    # Test 4x4 T matrix.
-    T = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([0, 0, 0, 1],dtype=complex)
-    state = np.zeros(2**5, dtype=complex)
-    state[11] = 1
-    assert(np.allclose(emulator.qpe(T, phi, 5), state))
-    
-def test_qpe_fail():
-    # Test 3x3 T matrix.
-    T = np.array([[1, 0, 0], [0, 1, 0], [0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([0, 0, 1],dtype=complex)
-    state = np.zeros(2**5, dtype=complex)
-    with pytest.raises(ValueError) as e:
-        emulator.qpe(T, phi, 5)
-    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'
-    
-    # Test 3x2 T matrix.
-    T = np.array([[1, 0, 0], [0, 0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([0, 1],dtype=complex)
-    state = np.zeros(2**5, dtype=complex)
-    with pytest.raises(ValueError) as e:
-        emulator.qpe(T, phi, 5)
-    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'
-    
-    # Test 2x1 T matrix.
-    T = np.array([[0, np.exp(2*1j*np.pi/3)]],dtype=complex)
-    phi = np.array([1],dtype=complex)
-    state = np.zeros(2**5, dtype=complex)
-    with pytest.raises(ValueError) as e:
-        emulator.qpe(T, phi, 5)
-    assert str(e.value) == 'U must be an NxN unitary matrix where N=2^n for some integer n.'

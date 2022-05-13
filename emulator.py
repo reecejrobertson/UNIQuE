@@ -270,7 +270,10 @@ def normalize_sparse(x):
         ndarray:        The normaliztion of x.
     """
 
-    return x / la.norm(x) # Divide x by the root of its squared sum.
+    x_sum = 0
+    for val in x.values():
+        x_sum += val**2
+    return x / np.sqrt(x_sum)   # Divide x by the root of its squared sum.
 
 
 def add_sparse(a, b):
@@ -287,11 +290,11 @@ def add_sparse(a, b):
 
     # Create a c vector that is twice as long as the longest input.
     n = max(a.shape[0], b.shape[0])
-    c = sp.lil_matrix((2*n, 1), dtype=complex)
+    c = sp.dok_matrix((2*n, 1), dtype=complex)
 
     # Compute the sum of the two quantum states.
-    for i in a.nonzero():
-        for j in b.nonzero():
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
             c[i+j] += a[i]*b[j]
 
     # Normalize the result.
@@ -315,11 +318,11 @@ def multiply_sparse(a, b):
 
     # Create a c vector that is the square of the size of the largest input.
     n = max(a.shape[0], b.shape[0])
-    c = sp.lil_matrix((2**n, 1), dtype=complex)
+    c = sp.dok_matrix((2**n, 1), dtype=complex)
 
     # Compute the product of the two quantum states.
-    for i in a.nonzero():
-        for j in b.nonzero():
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
             c[i*j] += a[i]*b[j]
 
     # Normalize the result.
@@ -344,12 +347,12 @@ def exponentiate_sparse(a, b):
 
     # Create a c vector that is large enough to hold the resultant state.
     n = max(a.shape[0], b.shape[0])
-    c = sp.csc_matrix((n**n, 1), dtype=complex)   # Preserves a size that is a power of 2.
+    c = sp.dok_matrix((n**n, 1), dtype=complex)   # Preserves a size that is a power of 2.
 
     # Compute the exponential of the two quantum states.
-    for i, x in enumerate(a):
-        for j, y in enumerate(b):
-            c[i**j] += x*y
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
+            c[i**j] += a[i]*b[j]
 
     # Normalize the result.
     c = normalize_sparse(c)

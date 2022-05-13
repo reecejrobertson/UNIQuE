@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, '../intel-qs/build/lib')
+sys.path.append('../../Emulator')
+sys.path.insert(0, '../../../ACME/intel-qs/build/lib') # Change this to match your installation location.
 import intelqs_py as simulator
 import emulator
 import numpy as np
@@ -10,13 +11,13 @@ from matplotlib import pyplot as plt
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_ADDITION = 10#35
-N_QFT = 20#35
-N_QPE = 20#35
+N_ADDITION = 35
+N_QFT = 35
+N_QPE = 35
 N_ARITHMETIC = 3
-N_MULTIPLICATION = 8#17
-N_EM_QFT = 20#40
-N_EM_QPE = 20#40
+N_MULTIPLICATION =17
+N_EM_QFT = 40
+N_EM_QPE = 40
 
 # ---------------------------------------------------------------------------- #
 #                                   Addition                                   #

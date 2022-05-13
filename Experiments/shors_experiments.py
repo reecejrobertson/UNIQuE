@@ -1,9 +1,11 @@
+import sys
+sys.path.append('../../Emulator')
 import time
 import emulator
 import numpy as np
 from math import gcd
 
-def demo_shors(a, N, m, n, mults=10, iters=1000, display=False, outfile='shors_tests.txt'):
+def demo_shors(a, N, m, n, mults=10, iters=1000, display=False, outfile='Data/shors_experiments.txt'):
     """
     Demonstrate Shor's Algorithm with a given choice of a, N, m, n.
     Computes a^x mod N for all x in the interval [0, 2^m].
