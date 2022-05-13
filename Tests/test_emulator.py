@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../../Emulator')
+sys.path.append('../Emulator')
 import pytest
 import emulator
 import numpy as np
