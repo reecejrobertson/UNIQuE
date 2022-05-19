@@ -1,6 +1,6 @@
 import sys
-# sys.path.append('/fslhome/reecejr/software/QuantumComputingEmulator') # Change this to match your installation location.
-# sys.path.append('/fslhome/reecejr/software/intel-qs/build/lib') # Change this to match your installation location.
+sys.path.append('/fslhome/reecejr/software/QuantumComputingEmulator') # Change this to match your installation location.
+sys.path.append('/fslhome/reecejr/software/intel-qs/build/lib') # Change this to match your installation location.
 import intelqs_py as simulator
 import emulator
 import numpy as np
