@@ -1,6 +1,6 @@
 import sys
-sys.path.append('/fslhome/reecejr/software/QuantumComputingEmulator')
-sys.path.append('/fslhome/reecejr/software/intel-qs/build/lib')
+# sys.path.append('/fslhome/reecejr/software/QuantumComputingEmulator') # Change this to match your installation location.
+# sys.path.append('/fslhome/reecejr/software/intel-qs/build/lib') # Change this to match your installation location.
 import intelqs_py as simulator
 import emulator
 import numpy as np
@@ -28,15 +28,17 @@ em_times = []
 sim_times = []
 
 # For each iteration of the experiment:
-for m in range(M):
+for m in range(1, M+1):
 
+    print('m = ' + str(m) + '...')
+        
     # Define arrays to hold the results of this iteration (batch).
     em_batch = []
     sim_batch = []
 
     # For each n, we will add two numbers of size n, as follows:
     for n in num_qubits:
-
+        
         # Initialize the state of the simulator.
         # Note that to add two numbers of size n, we need 2n + 2 qubits.
         psi = simulator.QubitRegister(2*n+2, 'base', 0, 0)
@@ -88,29 +90,31 @@ for m in range(M):
     # Append the batch results to the main array.     
     em_times.append(em_batch)
     sim_times.append(sim_batch)
+    
+    print('Done')
 
-# Average the times over each batch.
-em_times = np.array(em_times)
-sim_times = np.array(sim_times)
-em_times = np.sum(em_times, axis=0)/M
-sim_times = np.sum(sim_times, axis=0)/M
+    # Average the times over each batch.
+    em_array = np.array(em_times)
+    sim_array = np.array(sim_times)
+    em_array = np.sum(em_times, axis=0)/m
+    sim_array = np.sum(sim_times, axis=0)/m
 
-# Plot the times for each addition operation.
-fig = plt.figure()
-plt.plot(num_qubits, em_times, 'o-k', label='Emulator')   
-plt.plot(num_qubits, sim_times, 'o-r', label='Simulator')
-plt.title('Speed Comparison for Addition')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/addition.png', dpi=600)
+    # Plot the times for each addition operation.
+    fig = plt.figure()
+    plt.plot(num_qubits, em_array, 'o-k', label='Emulator')   
+    plt.plot(num_qubits, sim_array, 'o-r', label='Simulator')
+    plt.title('Speed Comparison for Addition')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/addition.png', dpi=600)
 
-# Plot the times for each addition operation on a log plot.
-fig = plt.figure()
-plt.semilogy(num_qubits, em_times, 'o-k', label='Emulator')   
-plt.semilogy(num_qubits, sim_times, 'o-r', label='Simulator')
-plt.title('Speed Comparison for Addition on Log Plot')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/addition_log.png', dpi=600)
+    # Plot the times for each addition operation on a log plot.
+    fig = plt.figure()
+    plt.semilogy(num_qubits, em_array, 'o-k', label='Emulator')   
+    plt.semilogy(num_qubits, sim_array, 'o-r', label='Simulator')
+    plt.title('Speed Comparison for Addition on Log Plot')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/addition_log.png', dpi=600)
