@@ -39,6 +39,8 @@ sim_times = []
 
 # For each iteration of the experiment:
 for m in range(M):
+    
+    print('m = ' + str(m) + '...', end='')
 
     # Define arrays to hold the results of this iteration (batch).
     em_batch = []
@@ -99,29 +101,31 @@ for m in range(M):
     # Append the batch results to the main array.     
     em_times.append(em_batch)
     sim_times.append(sim_batch)
+    
+    print('Done')
 
-# Average the times over each batch.
-em_times = np.array(em_times)
-sim_times = np.array(sim_times)
-em_times = np.sum(em_times, axis=0)/M
-sim_times = np.sum(sim_times, axis=0)/M
+    # Average the times over each batch.
+    em_array = np.array(em_times)
+    sim_array = np.array(sim_times)
+    em_array = np.sum(em_times, axis=0)/m
+    sim_array = np.sum(sim_times, axis=0)/m
 
-# Plot the times for each QPE operation.
-fig = plt.figure()
-plt.plot(num_qubits, em_times, 'o-k', label='Emulator')   
-plt.plot(num_qubits, sim_times, 'o-r', label='Simulator')
-plt.title('Speed Comparison for QPE')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/qpe.png', dpi=600)
+    # Plot the times for each QPE operation.
+    fig = plt.figure()
+    plt.plot(num_qubits, em_array, 'o-k', label='Emulator')   
+    plt.plot(num_qubits, sim_array, 'o-r', label='Simulator')
+    plt.title('Speed Comparison for QPE')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/qpe.png', dpi=600)
 
-# Plot the times for each QPE operation on a log plot.
-fig = plt.figure()
-plt.semilogy(num_qubits, em_times, 'o-k', label='Emulator')   
-plt.semilogy(num_qubits, sim_times, 'o-r', label='Simulator')
-plt.title('Speed Comparison for QPE on Log Plot')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/qpe_log.png', dpi=600)
+    # Plot the times for each QPE operation on a log plot.
+    fig = plt.figure()
+    plt.semilogy(num_qubits, em_array, 'o-k', label='Emulator')   
+    plt.semilogy(num_qubits, sim_array, 'o-r', label='Simulator')
+    plt.title('Speed Comparison for QPE on Log Plot')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/qpe_log.png', dpi=600)

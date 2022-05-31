@@ -31,6 +31,8 @@ exp_times = []
 # For each iteration of the experiment:
 for m in range(M):
     
+    print('m = ' + str(m) + '...', end='')
+    
     # Define arrays to hold the results of this iteration (batch).
     add_batch = []
     mult_batch = []
@@ -62,33 +64,35 @@ for m in range(M):
     add_times.append(add_batch)
     mult_times.append(mult_batch)
     exp_times.append(exp_batch)
+    
+    print('Done')
 
-# Average the times over each batch to get the average time for each operation.
-add_times = np.array(add_times)
-mult_times = np.array(mult_times)
-exp_times = np.array(exp_times)
-add_times = np.sum(add_times, axis=0)/M
-mult_times = np.sum(mult_times, axis=0)/M
-exp_times = np.sum(exp_times, axis=0)/M
+    # Average the times over each batch to get the average time for each operation.
+    add_array = np.array(add_times)
+    mult_array = np.array(mult_times)
+    exp_array = np.array(exp_times)
+    add_array = np.sum(add_times, axis=0)/m
+    mult_array = np.sum(mult_times, axis=0)/m
+    exp_array = np.sum(exp_times, axis=0)/m
 
-# Plot the times for each operation.
-fig = plt.figure()
-plt.plot(num_qubits, add_times, 'o-b', label='Addition')
-plt.plot(num_qubits, mult_times, 'o-g', label='Multiplication')
-plt.plot(num_qubits, exp_times, 'o-c', label='Exponentiation')
-plt.title('Emulator Speed for Arithmetic Operations')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/arithmetic.png', dpi=600)
+    # Plot the times for each operation.
+    fig = plt.figure()
+    plt.plot(num_qubits, add_array, 'o-b', label='Addition')
+    plt.plot(num_qubits, mult_array, 'o-g', label='Multiplication')
+    plt.plot(num_qubits, exp_array, 'o-c', label='Exponentiation')
+    plt.title('Emulator Speed for Arithmetic Operations')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/arithmetic.png', dpi=600)
 
-# Plot the times for each operation on a log plot.
-fig = plt.figure()
-plt.semilogy(num_qubits, add_times, 'o-b', label='Addition')
-plt.semilogy(num_qubits, mult_times, 'o-g', label='Multiplication')
-plt.semilogy(num_qubits, exp_times, 'o-c', label='Exponentiation')
-plt.title('Emulator Speed for Arithmetic Operations on Log Plot')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.legend(loc='best')
-plt.savefig('Plots/arithmetic_log.png', dpi=600)
+    # Plot the times for each operation on a log plot.
+    fig = plt.figure()
+    plt.semilogy(num_qubits, add_array, 'o-b', label='Addition')
+    plt.semilogy(num_qubits, mult_array, 'o-g', label='Multiplication')
+    plt.semilogy(num_qubits, exp_array, 'o-c', label='Exponentiation')
+    plt.title('Emulator Speed for Arithmetic Operations on Log Plot')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.legend(loc='best')
+    plt.savefig('Plots/arithmetic_log.png', dpi=600)

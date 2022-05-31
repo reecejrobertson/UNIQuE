@@ -30,7 +30,7 @@ sim_times = []
 # For each iteration of the experiment:
 for m in range(1, M+1):
 
-    print('m = ' + str(m) + '...')
+    print('m = ' + str(m) + '...', end='')
         
     # Define arrays to hold the results of this iteration (batch).
     em_batch = []

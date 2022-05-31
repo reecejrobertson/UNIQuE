@@ -29,6 +29,8 @@ em_times = []
 # For each iteration of the experiment:
 for m in range(M):
     
+    print('m = ' + str(m) + '...', end='')
+    
     # Define arrays to hold the results of this iteration (batch).
     em_batch = []
 
@@ -45,23 +47,25 @@ for m in range(M):
 
     # Append the batch results to the main array.
     em_times.append(em_batch)
+    
+    print('Done')
       
-# Average the times over each batch to get the average time for each operation.
-em_times = np.array(em_times)
-em_times = np.sum(em_times, axis=0)/M
+    # Average the times over each batch to get the average time for each operation.
+    em_array = np.array(em_times)
+    em_array = np.sum(em_times, axis=0)/m
 
-# Plot the times for each QFT operation.
-fig = plt.figure()
-plt.plot(num_qubits, em_times, 'o-k')   
-plt.title('Emulator Speed for QFT')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.savefig('Plots/em_qft.png', dpi=600)
+    # Plot the times for each QFT operation.
+    fig = plt.figure()
+    plt.plot(num_qubits, em_array, 'o-k')   
+    plt.title('Emulator Speed for QFT')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.savefig('Plots/em_qft.png', dpi=600)
 
-# Plot the times for each QFT operation on a log plot.
-fig = plt.figure()
-plt.semilogy(num_qubits, em_times, 'o-k')   
-plt.title('Emulator Speed for QFT on Log Plot')
-plt.xlabel('Number of Qubits')
-plt.ylabel('Time (seconds)')
-plt.savefig('Plots/em_qft_log.png', dpi=600)
+    # Plot the times for each QFT operation on a log plot.
+    fig = plt.figure()
+    plt.semilogy(num_qubits, em_array, 'o-k')   
+    plt.title('Emulator Speed for QFT on Log Plot')
+    plt.xlabel('Number of Qubits')
+    plt.ylabel('Time (seconds)')
+    plt.savefig('Plots/em_qft_log.png', dpi=600)
