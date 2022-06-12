@@ -92,7 +92,7 @@ for m in range(M):
     plt.xlabel('Number of Nonzero States')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('arithmetic.png', dpi=600)
+    plt.savefig('arithmetic_sparse.png', dpi=600)
     plt.show()
 
     # Plot the times for each operation on a log plot.
@@ -104,5 +104,5 @@ for m in range(M):
     plt.xlabel('Number of Nonzero States')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('arithmetic_log.png', dpi=600)
+    plt.savefig('arithmetic_sparse_log.png', dpi=600)
     plt.show()
