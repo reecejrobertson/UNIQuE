@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_QPE = 35
+N_QPE = 20
 
 # ---------------------------------------------------------------------------- #
 #                                      QPE                                     #

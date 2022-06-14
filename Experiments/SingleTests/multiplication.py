@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_MULTIPLICATION =17
+N_MULTIPLICATION = 13
 
 # ---------------------------------------------------------------------------- #
 #                                Multiplication                                #

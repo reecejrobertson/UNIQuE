@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_EM_QFT = 40
+N_EM_QFT = 30
 
 # ---------------------------------------------------------------------------- #
 #                                 Emulator QFT                                 #
