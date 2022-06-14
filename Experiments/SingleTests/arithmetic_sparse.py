@@ -16,7 +16,7 @@ M = 10
 # ---------------------------------------------------------------------------- #
 
 # Set the maximum number of states to simulate.
-N = 100
+N = 50
 
 # Set the number of qubits and an array containing each possible state.
 q = 10
@@ -89,7 +89,7 @@ for m in range(M):
     plt.plot(num_states, exp_times, 'o-c', label='Exponentiation')
     plt.xticks(np.arange(1, N+1, 1))
     plt.title('Emulator Speed for Sparse Arithmetic Operations')
-    plt.xlabel('Number of Nonzero States')
+    plt.xlabel('Number of Nonzero Entries in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
     plt.savefig('arithmetic_sparse.png', dpi=600)
@@ -101,7 +101,7 @@ for m in range(M):
     plt.semilogy(num_states, exp_times, 'o-c', label='Exponentiation')
     plt.xticks(np.arange(1, N+1, 1))
     plt.title('Emulator Speed for Sparse Arithmetic Operations on Log Plot')
-    plt.xlabel('Number of Nonzero States')
+    plt.xlabel('Number of Nonzero Entries in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
     plt.savefig('arithmetic_sparse_log.png', dpi=600)
