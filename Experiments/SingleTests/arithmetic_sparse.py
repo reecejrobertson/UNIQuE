@@ -16,7 +16,7 @@ M = 10
 # ---------------------------------------------------------------------------- #
 
 # Set the maximum number of states to simulate.
-N = 50
+N = 100
 
 # Set the number of qubits and an array containing each possible state.
 q = 10
@@ -31,7 +31,7 @@ mult_times = []
 exp_times = []
 
 # For each iteration of the experiment:
-for m in range(M):
+for m in range(1, M+1):
     
     print('m = ' + str(m) + '...', end='')
     
@@ -84,9 +84,9 @@ for m in range(M):
     exp_array = np.sum(exp_times, axis=0)/m
 
     # Plot the times for each operation.
-    plt.plot(num_states, add_times, 'o-b', label='Addition')
-    plt.plot(num_states, mult_times, 'o-g', label='Multiplication')
-    plt.plot(num_states, exp_times, 'o-c', label='Exponentiation')
+    plt.plot(num_states, add_array, 'o-b', label='Addition')
+    plt.plot(num_states, mult_array, 'o-g', label='Multiplication')
+    plt.plot(num_states, exp_array, 'o-c', label='Exponentiation')
     plt.xticks(np.arange(1, N+1, 1))
     plt.title('Emulator Speed for Sparse Arithmetic Operations')
     plt.xlabel('Number of Nonzero Entries in State Vector')
@@ -96,9 +96,9 @@ for m in range(M):
     plt.show()
 
     # Plot the times for each operation on a log plot.
-    plt.semilogy(num_states, add_times, 'o-b', label='Addition')
-    plt.semilogy(num_states, mult_times, 'o-g', label='Multiplication')
-    plt.semilogy(num_states, exp_times, 'o-c', label='Exponentiation')
+    plt.semilogy(num_states, add_array, 'o-b', label='Addition')
+    plt.semilogy(num_states, mult_array, 'o-g', label='Multiplication')
+    plt.semilogy(num_states, exp_array, 'o-c', label='Exponentiation')
     plt.xticks(np.arange(1, N+1, 1))
     plt.title('Emulator Speed for Sparse Arithmetic Operations on Log Plot')
     plt.xlabel('Number of Nonzero Entries in State Vector')

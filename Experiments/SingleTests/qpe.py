@@ -38,7 +38,7 @@ em_times = []
 sim_times = []
 
 # For each iteration of the experiment:
-for m in range(M):
+for m in range(1, M+1):
     
     print('m = ' + str(m) + '...', end='')
 
