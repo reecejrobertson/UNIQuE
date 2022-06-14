@@ -84,6 +84,7 @@ for m in range(1, M+1):
     exp_array = np.sum(exp_times, axis=0)/m
 
     # Plot the times for each operation.
+    fig = plt.figure()
     plt.plot(num_states, add_array, 'o-b', label='Addition')
     plt.plot(num_states, mult_array, 'o-g', label='Multiplication')
     plt.plot(num_states, exp_array, 'o-c', label='Exponentiation')
@@ -92,10 +93,11 @@ for m in range(1, M+1):
     plt.xlabel('Number of Nonzero Entries in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('arithmetic_sparse.png', dpi=600)
+    plt.savefig('Plots/arithmetic_sparse.png', dpi=600)
     plt.show()
 
     # Plot the times for each operation on a log plot.
+    fig = plt.figure()
     plt.semilogy(num_states, add_array, 'o-b', label='Addition')
     plt.semilogy(num_states, mult_array, 'o-g', label='Multiplication')
     plt.semilogy(num_states, exp_array, 'o-c', label='Exponentiation')
@@ -104,5 +106,5 @@ for m in range(1, M+1):
     plt.xlabel('Number of Nonzero Entries in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('arithmetic_sparse_log.png', dpi=600)
+    plt.savefig('Plots/arithmetic_sparse_log.png', dpi=600)
     plt.show()
