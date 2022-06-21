@@ -8,24 +8,17 @@ import time
 from matplotlib import pyplot as plt
 
 # Define the number of times to repeat each following experiment.
-M = 10
-
-# Define the number of qubits to simulate for each experiment.
-N_EM_QPE = 100
+U = 10
 
 # ---------------------------------------------------------------------------- #
 #                                 Emulator QPE                                 #
 # ---------------------------------------------------------------------------- #
 
-# Perform this experiment 10 times the amount of the others.
-M_hat = 10*M
+# Set the number of qubits to use for each estimation.
+S = 15
 
-# Set the maximum number of qubits to simulate.
-N = N_EM_QPE
-
-# Define a matrix (the T gate) and an eigenvector.
-T = np.array([[1, 0], [0, np.exp(1j*np.pi/4)]])
-phi = np.array([0, 1])
+# Set the maximum size of matrix to simulate (ie the number of qubits for the matrix).
+N = 20
 
 # Create a list of various numbers of qubits <= N to simulate.
 num_qubits = np.arange(2, N+1, 2)
@@ -34,7 +27,7 @@ num_qubits = np.arange(2, N+1, 2)
 em_times = []
 
 # For each iteration of the experiment:
-for m in range(1, M_hat+1):
+for m in range(1, U+1):
     
     print('m = ' + str(m) + '...', end='')
     
@@ -44,9 +37,16 @@ for m in range(1, M_hat+1):
     # For each number of qubits:
     for n in num_qubits:
         
+        # Define a matrix and an eigenvector.
+        z = np.random.rand()
+        U = np.eye(2**n)
+        U[-1, -1] = z
+        phi = np.zeros(2**n)
+        phi[-1] = 1
+        
         # Perform the QFT with the emulator and time how long it takes.
         start_time = time.time()
-        emulator.qpe(T, phi, n)
+        emulator.qpe(U, phi, S)
         em_batch.append(time.time() - start_time)
 
     # Append the batch results to the main array.
@@ -62,7 +62,7 @@ for m in range(1, M_hat+1):
     fig = plt.figure()
     plt.plot(num_qubits, em_array, 'o-k')   
     plt.title('Emulator Speed for QPE')
-    plt.xlabel('Number of Qubits in Estimation')
+    plt.xlabel('Number of Qubits in U Matrix')
     plt.ylabel('Time (seconds)')
     plt.savefig('Plots/em_qpe.png', dpi=600)
 
@@ -70,6 +70,6 @@ for m in range(1, M_hat+1):
     fig = plt.figure()
     plt.semilogy(num_qubits, em_array, 'o-k')   
     plt.title('Emulator Speed for QPE on Log Plot')
-    plt.xlabel('Number of Qubits in Estimation')
+    plt.xlabel('Number of Qubits in U Matrix')
     plt.ylabel('Time (seconds)')
     plt.savefig('Plots/em_qpe_log.png', dpi=600)
