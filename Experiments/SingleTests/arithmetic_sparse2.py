@@ -96,7 +96,7 @@ for m in range(1, M+1):
     plt.xlabel('Number of Qubits in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('Plots/arithmetic_sparse.png', dpi=600)
+    plt.savefig('Plots/arithmetic_sparse2.png', dpi=600)
     plt.show()
 
     # Plot the times for each operation on a log plot.
@@ -109,5 +109,5 @@ for m in range(1, M+1):
     plt.xlabel('Number of Qubits in State Vector')
     plt.ylabel('Time (seconds)')
     plt.legend(loc='best')
-    plt.savefig('Plots/arithmetic_sparse_log.png', dpi=600)
+    plt.savefig('Plots/arithmetic_sparse_log2.png', dpi=600)
     plt.show()

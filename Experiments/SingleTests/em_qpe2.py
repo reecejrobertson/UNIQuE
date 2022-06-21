@@ -64,7 +64,7 @@ for m in range(1, M+1):
     plt.title('Emulator Speed for QPE')
     plt.xlabel('Number of Qubits in U Matrix')
     plt.ylabel('Time (seconds)')
-    plt.savefig('Plots/em_qpe.png', dpi=600)
+    plt.savefig('Plots/em_qpe2.png', dpi=600)
 
     # Plot the times for each QPE operation on a log plot.
     fig = plt.figure()
@@ -72,4 +72,4 @@ for m in range(1, M+1):
     plt.title('Emulator Speed for QPE on Log Plot')
     plt.xlabel('Number of Qubits in U Matrix')
     plt.ylabel('Time (seconds)')
-    plt.savefig('Plots/em_qpe_log.png', dpi=600)
+    plt.savefig('Plots/em_qpe_log2.png', dpi=600)
