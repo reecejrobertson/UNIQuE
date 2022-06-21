@@ -21,10 +21,6 @@ S = 30
 # Set the maximum number of qubits to simulate.
 N = 100
 
-# Set the number of qubits and an array containing each possible state.
-q = 10
-numbers = np.arange(0, 2**q, 1)
-
 # Create a list of various numbers of qubits <= N to simulate.
 num_qubits = np.arange(5, N+1, 5)
 
@@ -47,12 +43,13 @@ for m in range(1, M+1):
     for n in num_qubits:
 
         # Define a random initial state.
+        numbers = np.arange(0, 2**n, 1)
         a = sp.dok_matrix((2**n, 1), dtype=complex)
         b = sp.dok_matrix((2**n, 1), dtype=complex)
         a_val = np.random.uniform(0, 1, S).astype(complex)
         b_val = np.random.uniform(0, 1, S).astype(complex)
-        a_ind = np.random.choice(numbers, n, False)
-        b_ind = np.random.choice(numbers, n, False)
+        a_ind = np.random.choice(numbers, S, False)
+        b_ind = np.random.choice(numbers, S, False)
         a[a_ind] = a_val
         b[b_ind] = b_val
 
