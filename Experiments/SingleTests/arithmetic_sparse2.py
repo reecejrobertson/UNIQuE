@@ -16,7 +16,7 @@ M = 10
 # ---------------------------------------------------------------------------- #
 
 # Set the number of states for each simulation.
-S = 100
+S = 30
 
 # Set the maximum number of qubits to simulate.
 N = 100
@@ -51,8 +51,8 @@ for m in range(1, M+1):
         b = sp.dok_matrix((2**n, 1), dtype=complex)
         a_val = np.random.uniform(0, 1, S).astype(complex)
         b_val = np.random.uniform(0, 1, S).astype(complex)
-        a_ind = np.random.choice(numbers, S, False)
-        b_ind = np.random.choice(numbers, S, False)
+        a_ind = np.random.choice(numbers, n, False)
+        b_ind = np.random.choice(numbers, n, False)
         a[a_ind] = a_val
         b[b_ind] = b_val
 
