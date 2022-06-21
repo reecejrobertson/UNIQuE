@@ -8,7 +8,7 @@ import time
 from matplotlib import pyplot as plt
 
 # Define the number of times to repeat each following experiment.
-U = 10
+M = 10
 
 # ---------------------------------------------------------------------------- #
 #                                 Emulator QPE                                 #
@@ -27,7 +27,7 @@ num_qubits = np.arange(2, N+1, 2)
 em_times = []
 
 # For each iteration of the experiment:
-for m in range(1, U+1):
+for m in range(1, M+1):
     
     print('m = ' + str(m) + '...', end='')
     
