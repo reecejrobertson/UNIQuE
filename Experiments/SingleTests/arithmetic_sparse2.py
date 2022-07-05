@@ -19,7 +19,7 @@ M = 10
 S = 30
 
 # Set the maximum number of qubits to simulate.
-N = 100
+N = 30
 
 # Create a list of various numbers of qubits <= N to simulate.
 num_qubits = np.arange(5, N+1, 5)
