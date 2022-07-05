@@ -102,6 +102,110 @@ def exponentiate(a, b):
     return c
 
 
+def normalize_sparse(x):
+    """
+    Accepts a state vector and normalizes it.
+    Utilizes the scipy.sparse.dok_matrix framework for spatial savings.
+
+    Args:
+        x (dok_matrix): A state vector.
+
+    Returns:
+        dok_matrix:     The normaliztion of x.
+    """
+
+    x_sum = 0
+    for val in x.values():
+        x_sum += np.abs(val)**2
+    return x / np.sqrt(x_sum)   # Divide x by the root of its squared sum.
+
+
+def add_sparse(a, b):
+    """
+    Takes two arbitrary superposition states and returns their sum.
+    Utilizes the scipy.sparse.dok_matrix framework for spatial savings.
+
+    Args:
+        a (dok_matrix): A state vector.
+        b (dok_matrix): A state vector.
+
+    Returns:
+        dok_matrix:     The state vector for the sum a+b.
+    """
+
+    # Create a c vector that is twice as long as the longest input.
+    N = max(a.shape[0], b.shape[0])
+    c = sp.dok_matrix((N+N, 1), dtype=complex)
+
+    # Compute the sum of the two quantum states.
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
+            c[i+j] += a[i]*b[j]
+
+    # Normalize the result.
+    c = normalize_sparse(c)
+
+    # Return the sum.
+    return c
+
+
+def multiply_sparse(a, b):
+    """
+    Takes two arbitrary superposition states and returns their product.
+    Utilizes the scipy.sparse.dok_matrix framework for spatial savings.
+
+    Args:
+        a (dok_matrix): A state vector.
+        b (dok_matrix): A state vector.
+
+    Returns:
+        dok_matrix:     The state vector for the sum a+b.
+    """
+
+    # Create a c vector that is the square of the size of the largest input.
+    c = sp.dok_matrix((a.shape[0]*b.shape[0], 1), dtype=complex)
+
+    # Compute the product of the two quantum states.
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
+            c[i*j] += a[i]*b[j]
+
+    # Normalize the result.
+    c = normalize_sparse(c)
+
+    # Return the product.
+    return c
+
+
+def exponentiate_sparse(a, b):
+    """
+    Takes two arbitrary superposition states and returns a**b.
+    Note that in this case order matters (a**b != b**a in general).
+    Utilizes the scipy.sparse.dok_matrix framework for spatial savings.
+
+    Args:
+        a (dok_matrix): A state vector.
+        b (dok_matrix): A state vector.
+
+    Returns:
+        dok_matrix:     The state vector for the sum a+b.
+    """
+
+    # Create a c vector that is large enough to hold the resultant state.
+    c = sp.dok_matrix((a.shape[0]**b.shape[0], 1), dtype=complex)   # Preserves a size that is a power of 2.
+
+    # Compute the exponential of the two quantum states.
+    for i in a.nonzero()[0]:
+        for j in b.nonzero()[0]:
+            c[i**j] += a[i]*b[j]
+
+    # Normalize the result.
+    c = normalize_sparse(c)
+
+    # Return the exponential.
+    return c
+
+
 def qft(x):
     """
     Performs the quantum Fourier transform on a given state vector.
@@ -257,103 +361,3 @@ def shors(X, a, m, n):
 
     # Return our estimate for the period of a^x mod X.
     return r
-    
-    
-def normalize_sparse(x):
-    """
-    Accepts a state vector and normalizes it.
-
-    Args:
-        x (ndarray):    A state vector.
-
-    Returns:
-        ndarray:        The normaliztion of x.
-    """
-
-    x_sum = 0
-    for val in x.values():
-        x_sum += np.abs(val)**2
-    return x / np.sqrt(x_sum)   # Divide x by the root of its squared sum.
-
-
-def add_sparse(a, b):
-    """
-    Takes two arbitrary superposition states and returns their sum.
-
-    Args:
-        a (ndarray):    A state vector.
-        b (ndarray):    A state vector.
-
-    Returns:
-        ndarray:        The state vector for the sum a+b.
-    """
-
-    # Create a c vector that is twice as long as the longest input.
-    N = max(a.shape[0], b.shape[0])
-    c = sp.dok_matrix((N+N, 1), dtype=complex)
-
-    # Compute the sum of the two quantum states.
-    for i in a.nonzero()[0]:
-        for j in b.nonzero()[0]:
-            c[i+j] += a[i]*b[j]
-
-    # Normalize the result.
-    c = normalize_sparse(c)
-
-    # Return the sum.
-    return c
-
-
-def multiply_sparse(a, b):
-    """
-    Takes two arbitrary superposition states and returns their product.
-
-    Args:
-        a (ndarray):    A state vector.
-        b (ndarray):    A state vector.
-
-    Returns:
-        ndarray:        The state vector for the sum a+b.
-    """
-
-    # Create a c vector that is the square of the size of the largest input.
-    c = sp.dok_matrix((a.shape[0]*b.shape[0], 1), dtype=complex)
-
-    # Compute the product of the two quantum states.
-    for i in a.nonzero()[0]:
-        for j in b.nonzero()[0]:
-            c[i*j] += a[i]*b[j]
-
-    # Normalize the result.
-    c = normalize_sparse(c)
-
-    # Return the product.
-    return c
-
-
-def exponentiate_sparse(a, b):
-    """
-    Takes two arbitrary superposition states and returns a**b.
-    Note that in this case order matters (a**b != b**a in general).
-
-    Args:
-        a (ndarray):    A state vector.
-        b (ndarray):    A state vector.
-
-    Returns:
-        ndarray:        The state vector for the sum a+b.
-    """
-
-    # Create a c vector that is large enough to hold the resultant state.
-    c = sp.dok_matrix((a.shape[0]**b.shape[0], 1), dtype=complex)   # Preserves a size that is a power of 2.
-
-    # Compute the exponential of the two quantum states.
-    for i in a.nonzero()[0]:
-        for j in b.nonzero()[0]:
-            c[i**j] += a[i]*b[j]
-
-    # Normalize the result.
-    c = normalize_sparse(c)
-
-    # Return the exponential.
-    return c
