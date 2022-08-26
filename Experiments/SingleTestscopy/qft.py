@@ -1,8 +1,6 @@
 import sys
 sys.path.append('/fslhome/reecejr/software/QuantumComputingEmulator') # Change this to match your installation location.
 sys.path.append('/fslhome/reecejr/software/intel-qs/build/lib') # Change this to match your installation location.
-# sys.path.append('../../../Emulator')
-# sys.path.insert(0, '../../../../ACME/intel-qs/build/lib') # Change this to match your installation location.
 import intelqs_py as simulator
 import emulator
 import numpy as np
@@ -14,7 +12,8 @@ from scipy.optimize import curve_fit
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_QFT = 20
+min_qubit = 2
+max_qubit = 18
 
 # Define the function that we will use to fit the curves.
 def curve(x, a, b):
@@ -25,7 +24,7 @@ def curve(x, a, b):
 # ---------------------------------------------------------------------------- #
 
 # Set the maximum number of qubits to simulate.
-N = N_QFT
+N = max_qubit
 
 # Define the z-rotations needed for the simulation method.
 Z = []
@@ -33,7 +32,7 @@ for n in range(2, N+1):
    Z.append(np.array([[1, 0], [0, np.exp(1j*2*np.pi/2**n)]], dtype=complex)) 
 
 # Create a list of various numbers of qubits <= N to simulate.
-num_qubits = np.arange(2, N+1, 2)
+num_qubits = np.arange(min_qubit, N+1, 2)
 
 # Define a list to hold the emulator and simulator times respectively.
 em_times = []
@@ -98,15 +97,19 @@ for m in range(1, M+1):
     sim_times.append(sim_batch)
     
     print('Done')
-        
+
+print('----------')
+
 # Average the times over each batch.
 em_array = np.array(em_times)
 sim_array = np.array(sim_times)
 em_array = np.sum(em_times, axis=0)/m
 sim_array = np.sum(sim_times, axis=0)/m
 
+# Record the raw data.
 print("Emulator data:", em_array)
 print("Simulator data:", sim_array)
+print('----------')
 
 # Plot the times for each QFT operation.
 fig = plt.figure()
@@ -121,11 +124,12 @@ plt.savefig('Plots/qft.png', dpi=600)
 em_params = curve_fit(f=curve, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
 sim_params = curve_fit(f=curve, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
 
+# Record the parameters of the fit curve.
 print('Parameters for emulator curve:', em_params)
 print('Parameters for simulator curve:', sim_params)
 
-# Plot the times for each QFT operation.
-domain = np.linspace(0, N, 1000)
+# Plot the raw data points and the fit curve.
+domain = np.linspace(min_qubit, N, 1000)
 fig = plt.figure()
 plt.plot(num_qubits, em_array, 'ok', label='Emulator Data')
 plt.plot(domain, curve(domain, em_params[0], em_params[1]), 'k', label='Emulator Fit Curve')
