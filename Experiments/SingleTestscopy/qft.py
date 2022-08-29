@@ -17,7 +17,7 @@ max_qubit = 18
 
 # Define the function that we will use to fit the curves.
 def curve(x, a, b):
-    return a*np.exp(b*x)
+    return a * (2 ** (b * x))
 
 # ---------------------------------------------------------------------------- #
 #                                      QFT                                     #
