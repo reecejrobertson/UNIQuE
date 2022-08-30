@@ -268,7 +268,7 @@ def qpe(U, phi, b):
     
     # FIXME: Clean this up.
     # Create a state of size 2^b with state[theta]=1. Return that state.
-    state = sp.dok_matrix(2**b, dtype=complex)
+    state = sp.dok_matrix((2**b, 1), dtype=complex)
     # state = np.zeros(2**b, dtype=complex)
     state[theta] = 1
     return state
