@@ -245,9 +245,9 @@ def qpe(U, phi, b):
         b (int):        The number of qubits to use on the counting register.
 
     Returns:
-        ndarray:        An approimation of the (2^b)*theta such that 
+        dok_matrix:     An approimation of the (2^b)*theta such that 
                         U|phi>=e^{2*pi*i/theta}|phi>. It is returned as a (2^b)x1
-                        quantum state vector approximation.
+                        quantum state vector approximation in a dok_matrix.
     """
     
     # Assert that U is a square matrix of size NxN where N=2^n for some n.
@@ -266,8 +266,10 @@ def qpe(U, phi, b):
     # Multiply theta by 2^b, round the result, and convert it to an int.
     theta = int(np.round(theta.real * (2**b)))
     
+    # FIXME: Clean this up.
     # Create a state of size 2^b with state[theta]=1. Return that state.
-    state = np.zeros(2**b, dtype=complex)
+    state = sp.dok_matrix(2**b, dtype=complex)
+    # state = np.zeros(2**b, dtype=complex)
     state[theta] = 1
     return state
 

@@ -23,16 +23,13 @@ def curve(x, a, b):
 #                                      QFT                                     #
 # ---------------------------------------------------------------------------- #
 
-# Set the maximum number of qubits to simulate.
-N = max_qubit
-
 # Define the z-rotations needed for the simulation method.
 Z = []
-for n in range(2, N+1):
+for n in range(2, max_qubit+1):
    Z.append(np.array([[1, 0], [0, np.exp(1j*2*np.pi/2**n)]], dtype=complex)) 
 
-# Create a list of various numbers of qubits <= N to simulate.
-num_qubits = np.arange(min_qubit, N+1, 2)
+# Create a list of various numbers of qubits <= max_qubit to simulate.
+num_qubits = np.arange(min_qubit, max_qubit+1, 2)
 
 # Define a list to hold the emulator and simulator times respectively.
 em_times = []
@@ -129,7 +126,7 @@ print('Parameters for emulator curve:', em_params)
 print('Parameters for simulator curve:', sim_params)
 
 # Plot the raw data points and the fit curve.
-domain = np.linspace(min_qubit, N, 1000)
+domain = np.linspace(min_qubit, max_qubit, 1000)
 fig = plt.figure()
 plt.plot(num_qubits, em_array, 'ok', label='Emulator Data')
 plt.plot(domain, curve(domain, em_params[0], em_params[1]), 'k', label='Emulator Fit Curve')
