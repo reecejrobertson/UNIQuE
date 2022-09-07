@@ -121,7 +121,7 @@ print("Simulator data:", sim_array)
 print('----------')
 
 # Plot the times for each QPE operation.
-ticks = np.arange(2, 21, 2)
+ticks = np.arange(2, max_qubit + 1, 2)
 fig = plt.figure()
 plt.plot(num_qubits, em_array, 'o-k', label='Emulator')   
 plt.plot(num_qubits, sim_array, 'o-r', label='Simulator')
