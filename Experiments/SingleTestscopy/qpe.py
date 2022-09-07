@@ -132,8 +132,8 @@ plt.legend(loc='best')
 plt.savefig('Plots/qpe.png', dpi=600)
 
 # Fit a curve to the data.
-em_params = curve_fit(f=curve, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
-sim_params = curve_fit(f=curve, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+em_params = curve_fit(f=curve, xdata=num_qubits, ydata=em_array, p0=[1, 1], bounds=(-np.inf, np.inf))[0]
+sim_params = curve_fit(f=curve, xdata=num_qubits, ydata=sim_array, p0=[1, 1], bounds=(-np.inf, np.inf))[0]
 
 # Record the parameters of the fit curve.
 print('Parameters for emulator curve:', em_params)
