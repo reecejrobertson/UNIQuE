@@ -14,7 +14,7 @@ M = 10
 
 # Define the number of qubits to simulate for each experiment.
 min_qubit = 5
-max_qubit = 20
+max_qubit = 21
 
 # Define the function that we will use to fit the curves.
 def curve(x, a, b):
@@ -28,7 +28,7 @@ def curve(x, a, b):
 S = 30
 
 # Create a list of various numbers of qubits <= N to simulate.
-num_qubits = np.arange(min_qubit, max_qubit+1, 5)
+num_qubits = np.arange(min_qubit, max_qubit+1, 2)
 
 # Define a list to hold the times of each operation.
 add_times = []
@@ -102,7 +102,7 @@ fig = plt.figure()
 plt.plot(num_qubits, add_array, 'o-b', label='Addition')
 plt.plot(num_qubits, mult_array, 'o-g', label='Multiplication')
 plt.plot(num_qubits, exp_array, 'o-c', label='Exponentiation')
-plt.xticks(np.arange(0, max_qubit+1, 5))
+plt.xticks(np.arange(min_qubit, max_qubit+1, 2))
 plt.xlabel('Number of Qubits in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
@@ -127,7 +127,7 @@ plt.plot(num_qubits, mult_array, 'og', label='Multiplication Data')
 plt.plot(domain, curve(domain, mult_params[0], mult_params[1]), 'g', label='Multiplication Fit Curve')
 plt.plot(num_qubits, exp_array, 'oc', label='Exponentiation Data')
 plt.plot(domain, curve(domain, exp_params[0], exp_params[1]), 'c', label='Exponentiation Fit Curve')
-plt.xticks(np.arange(0, max_qubit+1, 5))
+plt.xticks(np.arange(min_qubit, max_qubit+1, 2))
 plt.xlabel('Number of Qubits in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
