@@ -14,7 +14,7 @@ M = 10
 
 # Define the number of qubits to simulate for each experiment.
 min_qubit = 5
-max_qubit = 30
+max_qubit = 20
 
 # Define the function that we will use to fit the curves.
 def curve(x, a, b):
@@ -102,17 +102,16 @@ fig = plt.figure()
 plt.plot(num_qubits, add_array, 'o-b', label='Addition')
 plt.plot(num_qubits, mult_array, 'o-g', label='Multiplication')
 plt.plot(num_qubits, exp_array, 'o-c', label='Exponentiation')
-plt.xticks(np.arange(0, max_qubit+1, 10))
+plt.xticks(np.arange(0, max_qubit+1, 5))
 plt.xlabel('Number of Qubits in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
 plt.savefig('Plots/arithmetic_sparse2.png', dpi=600)
-plt.show()
 
 # Fit a curve to the data.
-add_params = curve_fit(f=curve, xdata=num_qubits, ydata=add_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
-mult_params = curve_fit(f=curve, xdata=num_qubits, ydata=mult_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
-exp_params = curve_fit(f=curve, xdata=num_qubits, ydata=exp_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+add_params = curve_fit(f=curve, xdata=num_qubits, ydata=add_array, p0=[1, 1], bounds=(-np.inf, np.inf))[0]
+mult_params = curve_fit(f=curve, xdata=num_qubits, ydata=mult_array, p0=[1, 1], bounds=(-np.inf, np.inf))[0]
+exp_params = curve_fit(f=curve, xdata=num_qubits, ydata=exp_array, p0=[1, 1], bounds=(-np.inf, np.inf))[0]
 
 # Record the parameters of the fit curve.
 print('Parameters for addition curve:', add_params)
@@ -128,9 +127,8 @@ plt.plot(num_qubits, mult_array, 'og', label='Multiplication Data')
 plt.plot(domain, curve(domain, mult_params[0], mult_params[1]), 'g', label='Multiplication Fit Curve')
 plt.plot(num_qubits, exp_array, 'oc', label='Exponentiation Data')
 plt.plot(domain, curve(domain, exp_params[0], exp_params[1]), 'c', label='Exponentiation Fit Curve')
-plt.xticks(np.arange(0, max_qubit+1, 10))
+plt.xticks(np.arange(0, max_qubit+1, 5))
 plt.xlabel('Number of Qubits in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
-plt.savefig('Plots/arithmetic_sparse_log2.png', dpi=600)
-plt.show()
+plt.savefig('Plots/arithmetic_sparse_fit2.png', dpi=600)

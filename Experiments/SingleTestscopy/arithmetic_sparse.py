@@ -107,7 +107,6 @@ plt.xlabel('Number of Nonzero Entries in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
 plt.savefig('Plots/arithmetic_sparse.png', dpi=600)
-plt.show()
 
 # Fit a curve to the data.
 add_params = curve_fit(f=curve, xdata=num_states, ydata=add_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
@@ -132,5 +131,4 @@ plt.xticks(np.arange(0, max_states+1, 10))
 plt.xlabel('Number of Nonzero Entries in State Vector')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
-plt.savefig('Plots/arithmetic_sparse_log.png', dpi=600)
-plt.show()
+plt.savefig('Plots/arithmetic_sparse_fit.png', dpi=600)
