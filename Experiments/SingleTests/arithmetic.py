@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_ARITHMETIC = 4
+N_ARITHMETIC = 3
 
 # ---------------------------------------------------------------------------- #
 #                                  Arithmetic                                  #
@@ -77,10 +77,9 @@ for m in range(1, M+1):
 
     # Plot the times for each operation.
     fig = plt.figure()
-    plt.plot(num_qubits, add_array, 'o-b', linewidth=2, label='Addition')
+    plt.plot(num_qubits, add_array, 'o-b', label='Addition')
     plt.plot(num_qubits, mult_array, 'o-g', label='Multiplication')
     plt.plot(num_qubits, exp_array, 'o-c', label='Exponentiation')
-    plt.title('Emulator Speed for Arithmetic Operations')
     plt.xticks(np.arange(1, N+1, 1))
     plt.xlabel('Number of Qubits')
     plt.ylabel('Time (seconds)')
@@ -89,10 +88,9 @@ for m in range(1, M+1):
 
     # Plot the times for each operation on a log plot.
     fig = plt.figure()
-    plt.semilogy(num_qubits, add_array, 'o-b', linewidth=2, label='Addition')
+    plt.semilogy(num_qubits, add_array, 'o-b', label='Addition')
     plt.semilogy(num_qubits, mult_array, 'o-g', label='Multiplication')
     plt.semilogy(num_qubits, exp_array, 'o-c', label='Exponentiation')
-    plt.title('Emulator Speed for Arithmetic Operations on Log Plot')
     plt.xticks(np.arange(1, N+1, 1))
     plt.xlabel('Number of Qubits')
     plt.ylabel('Time (seconds)')
