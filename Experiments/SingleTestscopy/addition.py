@@ -17,8 +17,12 @@ min_qubit = 2
 max_qubit = 14
 
 # Define the function that we will use to fit the curves.
-def curve(x, a, b):
+def curve1(x, a, b):
     return a * (2 ** (b * x))
+
+# Define the function that we will use to fit the curves.
+def curve2(x, a, b):
+    return (a * x) * (2 ** (b * x))
 
 # ---------------------------------------------------------------------------- #
 #                                   Addition                                   #
@@ -144,20 +148,46 @@ plt.legend(loc='best')
 plt.savefig('Plots/addition.png', dpi=600)
     
 # Fit a curve to the data.
-em_params = curve_fit(f=curve, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
-sim_params = curve_fit(f=curve, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+em_params1, em_cov1 = curve_fit(f=curve1, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))
+em_err1 = np.sqrt(np.diag(em_cov1))
+sim_params1, sim_cov1 = curve_fit(f=curve1, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))
+sim_err1 = np.sqrt(np.diag(sim_cov1))
 
 # Record the parameters of the fit curve.
-print('Parameters for emulator curve:', em_params)
-print('Parameters for simulator curve:', sim_params)
+print('Parameters for emulator curve1:', em_params1)
+print('Covariance for emulator curve1:', em_cov1)
+print('Error for emulator curve1:', em_err1)
+print('Parameters for simulator curve1:', sim_params1)
+print('Covariance for simulator curve1:', sim_cov1)
+print('Error for simulator curve1:', sim_err1)
+
+# Fit a curve to the data.
+em_params2, em_cov2 = curve_fit(f=curve2, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))
+em_err2 = np.sqrt(np.diag(em_cov2))
+sim_params2, sim_cov2 = curve_fit(f=curve2, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))
+sim_err2 = np.sqrt(np.diag(sim_cov2))
+
+# Record the parameters of the fit curve.
+print('Parameters for emulator curve2:', em_params2)
+print('Covariance for emulator curve2:', em_cov2)
+print('Error for emulator curve2:', em_err2)
+print('Parameters for simulator curve2:', sim_params2)
+print('Covariance for simulator curve2:', sim_cov2)
+print('Error for simulator curve2:', sim_err2)
 
 # Plot the raw data points and the fit curve.
 domain = np.linspace(min_qubit, max_qubit, 1000)
 fig = plt.figure()
 plt.plot(num_qubits, em_array, 'ok', label='Emulator Data')
-plt.plot(domain, curve(domain, em_params[0], em_params[1]), 'k', label='Emulator Fit Curve')
+if (em_err1 <= em_err2):
+    plt.plot(domain, curve1(domain, em_params1[0], em_params1[1]), 'k', label='Emulator Fit Curve')
+else:
+    plt.plot(domain, curve2(domain, em_params2[0], em_params2[1]), 'k', label='Emulator Fit Curve')
 plt.plot(num_qubits, sim_array, 'or', label='Simulator Data')
-plt.plot(domain, curve(domain, sim_params[0], sim_params[1]), 'r', label='Simulator Fit Curve')
+if (sim_err1 < sim_err2):
+    plt.plot(domain, curve1(domain, sim_params1[0], sim_params1[1]), 'r', label='Simulator Fit Curve')
+else:
+    plt.plot(domain, curve2(domain, sim_params2[0], sim_params2[1]), 'r', label='Simulator Fit Curve')
 plt.xlabel('Number of Qubits Per Addend')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
