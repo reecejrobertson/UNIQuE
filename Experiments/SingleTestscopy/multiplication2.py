@@ -51,7 +51,7 @@ for m in range(1, M+1):
         for i, x in enumerate(alpha):
             a[i] = x
 
-        b = dok_matrix(len(beta), 1)
+        b = dok_matrix((len(beta), 1))
         for i, x in enumerate(beta):
             b[i] = x
 
