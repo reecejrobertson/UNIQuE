@@ -47,11 +47,11 @@ for m in range(1, M+1):
         alpha = np.random.uniform(0, 1, 2**n).astype(complex)
         beta = np.random.uniform(0, 1, 2**n).astype(complex)
         
-        a = dok_matrix((len(a), 1))
+        a = dok_matrix((len(alpha), 1))
         for i, x in enumerate(alpha):
             a[i] = x
 
-        b = dok_matrix(len(b), 1)
+        b = dok_matrix(len(beta), 1)
         for i, x in enumerate(beta):
             b[i] = x
 
