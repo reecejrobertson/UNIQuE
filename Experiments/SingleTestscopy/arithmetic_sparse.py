@@ -25,7 +25,7 @@ def curve(x, a, b):
 # ---------------------------------------------------------------------------- #
 
 # Set the number of qubits and an array containing each possible state.
-q = 10
+q = 100
 numbers = np.arange(0, 2**q, 1)
 
 # Create a list of various numbers of states <= N to simulate.
@@ -50,8 +50,8 @@ for m in range(1, M+1):
     for n in num_states:
 
         # Define a random initial state.
-        a = sp.dok_matrix((2**10, 1), dtype=complex)
-        b = sp.dok_matrix((2**10, 1), dtype=complex)
+        a = sp.dok_matrix((2**q, 1), dtype=complex)
+        b = sp.dok_matrix((2**q, 1), dtype=complex)
         a_val = np.random.uniform(0, 1, n).astype(complex)
         b_val = np.random.uniform(0, 1, n).astype(complex)
         a_ind = np.random.choice(numbers, n, False)
