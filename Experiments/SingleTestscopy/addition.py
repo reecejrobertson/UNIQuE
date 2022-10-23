@@ -14,7 +14,7 @@ M = 10
 
 # Define the number of qubits to simulate for each experiment.
 min_qubit = 2
-max_qubit = 14
+max_qubit = 6#14
 
 # Define the function that we will use to fit the curves.
 def curve1(x, a, b):
@@ -23,6 +23,14 @@ def curve1(x, a, b):
 # Define the function that we will use to fit the curves.
 def curve2(x, a, b):
     return (a * x) * (2 ** (b * x))
+
+# Define a function to compute the Mean Squared Error between a curve and data points.
+def MSE(func, param1, param2, points, data):
+    pred = func(points, param1, param2)
+    print("Pred: ", pred)
+    error = pred - data
+    error = error ** 2
+    return sum(error)
 
 # ---------------------------------------------------------------------------- #
 #                                   Addition                                   #
@@ -148,32 +156,28 @@ plt.legend(loc='best')
 plt.savefig('Plots/addition.png', dpi=600)
     
 # Fit a curve to the data.
-em_params1, em_cov1 = curve_fit(f=curve1, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))
-em_err1 = np.sqrt(np.diag(em_cov1))
-sim_params1, sim_cov1 = curve_fit(f=curve1, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))
-sim_err1 = np.sqrt(np.diag(sim_cov1))
+em_params1 = curve_fit(f=curve1, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+sim_params1 = curve_fit(f=curve1, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+
+# Compute the mean squared error for this curve.
+em_err1 = MSE(curve1, em_params1[0], em_params1[1], em_array, num_qubits)
+sim_err1 = MSE(curve1, sim_params1[0], sim_params1[1], sim_array, num_qubits)
 
 # Record the parameters of the fit curve.
 print('Parameters for emulator curve1:', em_params1)
-print('Covariance for emulator curve1:', em_cov1)
-print('Error for emulator curve1:', em_err1)
 print('Parameters for simulator curve1:', sim_params1)
-print('Covariance for simulator curve1:', sim_cov1)
-print('Error for simulator curve1:', sim_err1)
 
 # Fit a curve to the data.
-em_params2, em_cov2 = curve_fit(f=curve2, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))
-em_err2 = np.sqrt(np.diag(em_cov2))
-sim_params2, sim_cov2 = curve_fit(f=curve2, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))
-sim_err2 = np.sqrt(np.diag(sim_cov2))
+em_params2 = curve_fit(f=curve2, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+sim_params2 = curve_fit(f=curve2, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+
+# Compute the mean squared error for this curve.
+em_err2 = MSE(curve1, em_params2[0], em_params2[1], em_array, num_qubits)
+sim_err2 = MSE(curve1, sim_params2[0], sim_params2[1], sim_array, num_qubits)
 
 # Record the parameters of the fit curve.
 print('Parameters for emulator curve2:', em_params2)
-print('Covariance for emulator curve2:', em_cov2)
-print('Error for emulator curve2:', em_err2)
 print('Parameters for simulator curve2:', sim_params2)
-print('Covariance for simulator curve2:', sim_cov2)
-print('Error for simulator curve2:', sim_err2)
 
 # Plot the raw data points and the fit curve.
 domain = np.linspace(min_qubit, max_qubit, 1000)
