@@ -30,6 +30,8 @@ def MSE(func, param1, param2, points, data):
     print("Pred: ", pred)
     error = pred - data
     error = error ** 2
+    print("Error: ", error)
+    print("Total error: ", sum(error))
     return sum(error)
 
 # ---------------------------------------------------------------------------- #
@@ -184,13 +186,17 @@ domain = np.linspace(min_qubit, max_qubit, 1000)
 fig = plt.figure()
 plt.plot(num_qubits, em_array, 'ok', label='Emulator Data')
 if (em_err1 <= em_err2):
+    print("Emulator array best fit by curve 1.")
     plt.plot(domain, curve1(domain, em_params1[0], em_params1[1]), 'k', label='Emulator Fit Curve')
 else:
+    print("Emulator array best fit by curve 2.")
     plt.plot(domain, curve2(domain, em_params2[0], em_params2[1]), 'k', label='Emulator Fit Curve')
 plt.plot(num_qubits, sim_array, 'or', label='Simulator Data')
 if (sim_err1 < sim_err2):
+    print("Simulator array best fit by curve 1.")
     plt.plot(domain, curve1(domain, sim_params1[0], sim_params1[1]), 'r', label='Simulator Fit Curve')
 else:
+    print("Simulator array best fit by curve 2.")
     plt.plot(domain, curve2(domain, sim_params2[0], sim_params2[1]), 'r', label='Simulator Fit Curve')
 plt.xlabel('Number of Qubits Per Addend')
 plt.ylabel('Time (seconds)')
