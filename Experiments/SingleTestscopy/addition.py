@@ -14,7 +14,7 @@ M = 10
 
 # Define the number of qubits to simulate for each experiment.
 min_qubit = 2
-max_qubit = 6#14
+max_qubit = 14
 
 # Define the function that we will use to fit the curves.
 def curve1(x, a, b):
