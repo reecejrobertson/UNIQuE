@@ -25,7 +25,7 @@ def curve2(x, a, b):
     return (a * x) * (2 ** (b * x))
 
 # Define a function to compute the Mean Squared Error between a curve and data points.
-def MSE(func, param1, param2, points, data):
+def MSE(func, param1, param2, data, points):
     pred = func(points, param1, param2)
     print("Pred: ", pred)
     error = pred - data
