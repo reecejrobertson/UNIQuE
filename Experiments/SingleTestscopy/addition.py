@@ -162,20 +162,25 @@ em_params1 = curve_fit(f=curve1, xdata=num_qubits, ydata=em_array, p0=[0, 0], bo
 sim_params1 = curve_fit(f=curve1, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
 
 # Compute the mean squared error for this curve.
+print('Emulator error on curve 1:')
 em_err1 = MSE(curve1, em_params1[0], em_params1[1], em_array, num_qubits)
+print('Simulator error on curve 1:')
 sim_err1 = MSE(curve1, sim_params1[0], sim_params1[1], sim_array, num_qubits)
 
 # Record the parameters of the fit curve.
 print('Parameters for emulator curve1:', em_params1)
 print('Parameters for simulator curve1:', sim_params1)
+print('----------')
 
 # Fit a curve to the data.
 em_params2 = curve_fit(f=curve2, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
 sim_params2 = curve_fit(f=curve2, xdata=num_qubits, ydata=sim_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
 
 # Compute the mean squared error for this curve.
-em_err2 = MSE(curve1, em_params2[0], em_params2[1], em_array, num_qubits)
-sim_err2 = MSE(curve1, sim_params2[0], sim_params2[1], sim_array, num_qubits)
+print('Emulator error on curve 2:')
+em_err2 = MSE(curve2, em_params2[0], em_params2[1], em_array, num_qubits)
+print('Simulator error on curve 2:')
+sim_err2 = MSE(curve2, sim_params2[0], sim_params2[1], sim_array, num_qubits)
 
 # Record the parameters of the fit curve.
 print('Parameters for emulator curve2:', em_params2)
