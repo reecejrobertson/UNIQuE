@@ -85,7 +85,7 @@ plt.plot(num_qubits, em_array, 'o-k', label='Emulator')
 plt.xlabel('Number of Qubits Per Addend')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
-plt.savefig('Plots/addition.png', dpi=600)
+plt.savefig('Plots/em_addition.png', dpi=600)
     
 # Fit a curve to the data.
 em_params1 = curve_fit(f=curve1, xdata=num_qubits, ydata=em_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
@@ -121,4 +121,4 @@ else:
 plt.xlabel('Number of Qubits Per Addend')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
-plt.savefig('Plots/addition_fit.png', dpi=600)
+plt.savefig('Plots/em_addition_fit.png', dpi=600)
