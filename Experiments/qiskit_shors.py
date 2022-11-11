@@ -8,13 +8,16 @@ provider = IBMQ.get_provider(hub='ibm-q')
 
 backend = provider.get_backend('ibmq_qasm_simulator') # Specifies the quantum device
 
-N = 179 * 239   # 42781
-a = 10
+N =  67 * 127   # 8509
+a = 38
 
-factors = Shor(QuantumInstance(backend, shots=1, skip_qobj_validation=False))
+# N = 179 * 239   # 42781
+# a = 10
+
+factors = Shor(QuantumInstance(backend, shots=2, skip_qobj_validation=False))
 
 start_time = time.time()
-result_dict = factors.factor(N=N, a=a) # Where N is the integer to be factored
+result_dict = factors.factor(N=13*17, a=2) # Where N is the integer to be factored
 execution_time = time.time() - start_time
 result = result_dict.factors
 

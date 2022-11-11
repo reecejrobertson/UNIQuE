@@ -6,22 +6,25 @@ import emulator
 import numpy as np
 import time
 from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
 
 # Define the number of times to repeat each following experiment.
 M = 10
 
 # Define the number of qubits to simulate for each experiment.
-N_MULTIPLICATION = 13
+min_qubit = 1
+max_qubit = 14
+
+# Define the function that we will use to fit the curves.
+def curve(x, a, b):
+    return a * (2 ** (b * x))
 
 # ---------------------------------------------------------------------------- #
 #                                Multiplication                                #
 # ---------------------------------------------------------------------------- #
 
-# Set the maximum number of qubits to simulate.
-N = N_MULTIPLICATION
-
 # Create a list of various numbers of qubits <= N to simulate.
-num_qubits = np.arange(1, N+1, 1)
+num_qubits = np.arange(min_qubit, max_qubit+1, 1)
 
 # Define a list to hold the times of each operation.
 add_times = []
@@ -59,28 +62,44 @@ for m in range(1, M+1):
     
     print('Done')
 
+print('----------')
+
 # Average the times over each batch to get the average time for each operation.
 add_array = np.array(add_times)
 mult_array = np.array(mult_times)
 add_array = np.sum(add_times, axis=0)/m
 mult_array = np.sum(mult_times, axis=0)/m
 
+# Record the raw data.
+print("Addition data:", add_array)
+print("Multiplication data:", mult_array)
+print('----------')
+
 # Plot the times for each operation.
 fig = plt.figure()
 plt.plot(num_qubits, add_array, 'o-b', label='Addition')
 plt.plot(num_qubits, mult_array, 'o-g', label='Multiplication')
-plt.title('Emulator Speed for Arithmetic Operations')
-plt.xlabel('Number of Qubits')
+plt.xlabel('Number of Qubits per Operand')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
 plt.savefig('Plots/add_mult.png', dpi=600)
 
-# Plot the times for each operation on a log plot.
+# Fit a curve to the data.
+add_params = curve_fit(f=curve, xdata=num_qubits, ydata=add_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+mult_params = curve_fit(f=curve, xdata=num_qubits, ydata=mult_array, p0=[0, 0], bounds=(-np.inf, np.inf))[0]
+
+# Record the parameters of the fit curve.
+print('Parameters for addition curve:', add_params)
+print('Parameters for multiplication curve:', mult_params)
+
+# Plot the raw data points and the fit curve.
+domain = np.linspace(min_qubit, max_qubit, 1000)
 fig = plt.figure()
-plt.semilogy(num_qubits, add_array, 'o-b', label='Addition')
-plt.semilogy(num_qubits, mult_array, 'o-g', label='Multiplication')
-plt.title('Emulator Speed for Arithmetic Operations on Log Plot')
-plt.xlabel('Number of Qubits')
+plt.plot(num_qubits, add_array, 'ob', label='Addition Data')
+plt.plot(domain, curve(domain, add_params[0], add_params[1]), 'b', label='Addition Fit Curve')
+plt.plot(num_qubits, mult_array, 'og', label='Multiplication Data')
+plt.plot(domain, curve(domain, mult_params[0], mult_params[1]), 'g', label='Multiplication Fit Curve')
+plt.xlabel('Number of Qubits Per Operand')
 plt.ylabel('Time (seconds)')
 plt.legend(loc='best')
-plt.savefig('Plots/add_mult_log.png', dpi=600)
+plt.savefig('Plots/add_mult_fit.png', dpi=600)
