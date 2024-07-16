@@ -1,4 +1,4 @@
-# QuantumComputingEmulator
+# Unconventional Noiseless Intermediate Quantum Emulator (UNIQuE)
 A quantum computing emulator for my undergraduate senior thesis. This performs high level quantum subroutinues using optimized classical algorithms, as opposed to quantum simulators that perform all operations via matrix multiplications.
 
 In the 'validate_qft.ipynb' and 'emulator_comparison.ipynb' files I comapre my emulator implementation to the Intel Quantum Simulator (also known as Intel-QS, and available at https://github.com/iqusoft/intel-qs) for speedup and accuracy. To run these files you will need to clone the Intel-QS repository and run the cmake files with the proper flags to enable Python bindings (see their documentation for details). Then change the path variable at the top of the 'validate_qft.ipynb' and 'emulator_comparison.ipynb' files to match your installation location.
