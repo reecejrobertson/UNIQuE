@@ -64,5 +64,5 @@ This random selection is made using the $\texttt{numpy.random.choice}$ function.
 If $\texttt{return\\_index=True}$ then the index of the nonzero state is also returned.
 
 13. $\texttt{shors(X, a, m, n)}$:
-the inputs to this funciton are as follows: $\texttt{X}\in\mathbb{Z}$ is the number to factor, $\texttt{a}\in\mathbb{Z}$ is co-prime to \texttt{X}, and $\texttt{m},\texttt{n}\in\mathbb{N}$ represent the number of qubits in the first and second quantum registers, respectively.
+the inputs to this function are as follows: $\texttt{X}\in\mathbb{Z}$ is the number to factor, $\texttt{a}\in\mathbb{Z}$ is co-prime to $\texttt{X}$, and $\texttt{m},\texttt{n}\in\mathbb{N}$ represent the number of qubits in the first and second quantum registers, respectively.
 It returns an estimate of the factors of $\texttt{X}$.
