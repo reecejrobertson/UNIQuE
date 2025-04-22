@@ -1,12 +1,12 @@
 # Introduction
-The Unconventional Noiseless Intermediate Quantum Emulator (UNIQuE) is the first open-source quantum computing emulator.
-As an emulator, UNIQuE performs high level quantum subroutinues using optimized classical algorithms.
+The Unconventional Noiseless Intermediate Quantum Emulator (UNIQuE) is an open-source quantum computing emulator, introduced in https://arxiv.org/abs/2409.07000.
+As an emulator, UNIQuE performs high-level quantum subroutines using optimized classical algorithms.
 This is opposed to quantum simulators that perform all operations via matrix multiplications.
 
 The functions provided by the emulator are found in the $\texttt{emulator.py}$ file.
-The documenation for these functions is given below.
+The documentation for these functions is given below.
 Additionally, experiments benchmarking UNIQuE against the Intel Quantum Simulator (Intel-QS, found at https://github.com/iqusoft/intel-qs) are found in the $\texttt{validate\\_qft.ipynb}$ and $\texttt{emulator\\_comparison.ipynb}$ files.
-To run these files you will need to clone the Intel-QS repository and run the cmake files with Python binding enabled (see their documentation for details).
+To run these files, you will need to clone the Intel-QS repository and run the CMake files with Python binding enabled (see their documentation for details).
 Then change the path variable at the top of the $\texttt{validate\\_qft.ipynb}$ and $\texttt{emulator\\_comparison.ipynb}$ files to match your installation location.
 
 # Documentation
@@ -61,7 +61,7 @@ This value $r$ is encoded into a state vector (a dok_matrix specifically) of siz
 takes a numpy array $\texttt{x}$ of length $N$ as input and returns a numpy array of the same size with a single nonzero entry, which entry is $1$.
 The probability that any given index in the output will hold the value $1$ is given by the value of the corresponding entry of $\texttt{x}$ squared.
 This random selection is made using the $\texttt{numpy.random.choice}$ function.
-If $\texttt{return\\_index=True}$ then the index of the nonzero state is also returned.
+If $\texttt{return\\_index=True}$, then the index of the nonzero state is also returned.
 
 13. $\texttt{shors(X, a, m, n)}$:
 the inputs to this function are as follows: $\texttt{X}\in\mathbb{Z}$ is the number to factor, $\texttt{a}\in\mathbb{Z}$ is co-prime to $\texttt{X}$, and $\texttt{m},\texttt{n}\in\mathbb{N}$ represent the number of qubits in the first and second quantum registers, respectively.
