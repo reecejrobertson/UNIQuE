@@ -6,7 +6,7 @@ This is opposed to quantum simulators that perform all operations via matrix mul
 The functions provided by the emulator are found in the $\texttt{emulator.py}$ file.
 The documentation for these functions is given below.
 Additionally, experiments benchmarking UNIQuE against the Intel Quantum Simulator (Intel-QS, found at https://github.com/iqusoft/intel-qs) are found in the $\texttt{validate\\_qft.ipynb}$ and $\texttt{emulator\\_comparison.ipynb}$ files.
-To run these files, you will need to clone the Intel-QS repository and run the CMake files with Python binding enabled (see their documentation for details).
+To run these files, you must clone the Intel-QS repository and run the CMake files with Python binding enabled (see their documentation for details).
 Then change the path variable at the top of the $\texttt{validate\\_qft.ipynb}$ and $\texttt{emulator\\_comparison.ipynb}$ files to match your installation location.
 
 # Documentation
