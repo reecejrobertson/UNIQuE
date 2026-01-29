@@ -1,5 +1,5 @@
 # Introduction
-The Unconventional Noiseless Intermediate Quantum Emulator (UNIQuE) is an open-source quantum computing emulator, introduced in [arXiv:2409.07000](https://arxiv.org/abs/2409.07000).
+The Unconventional Noiseless Intermediate Quantum Emulator (UNIQuE) is an open-source quantum computing emulator, introduced in [IEEE CASCON 66301, 00086 (2025)](https://ieeexplore.ieee.org/document/11344284).
 As an emulator, UNIQuE performs high-level quantum subroutines using optimized classical algorithms.
 This is opposed to quantum simulators that perform all operations via matrix multiplications.
 
